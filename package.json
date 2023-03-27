@@ -1,5 +1,5 @@
 {
-  "name": "notion-chatgpt-langchain",
+  "name": "vipdocs-chatgpt",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -15,12 +15,13 @@
     "ingest": "tsx -r dotenv/config scripts/ingest-data.ts"
   },
   "dependencies": {
-    "@pinecone-database/pinecone": "0.0.8",
+    "@pinecone-database/pinecone": "^0.0.10",
     "@types/glob": "^8.1.0",
     "dotenv": "^16.0.3",
     "glob": "^9.2.1",
     "langchain": "^0.0.22",
     "next": "13.2.3",
+    "node-fetch": "^3.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -40,11 +41,9 @@
     "typescript": "^4.9.5"
   },
   "keywords": [
-    "starter",
-    "notion",
-    "typescript",
-    "nextjs",
+    "vipdocs",
     "langchain",
+    "pinecone",
     "openai"
   ]
 }

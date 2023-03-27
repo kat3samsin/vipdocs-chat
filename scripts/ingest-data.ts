@@ -6,7 +6,7 @@ import { processMarkDownFiles } from '@/utils/helpers';
 import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
 
 /* Name of directory to retrieve files from. You can change this as required */
-const directoryPath = 'Notion_DB';
+const directoryPath = 'VIP_DOCS';
 
 export const run = async () => {
   try {
