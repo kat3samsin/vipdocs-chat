@@ -1,9 +1,10 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@pinecone-database/pinecone': ^0.0.10
+  '@pinecone-database/pinecone': ^0.0.12
   '@types/glob': ^8.1.0
   '@types/node': ^18.14.6
+  '@types/papaparse': ^5.3.7
   '@types/react': ^18.0.28
   '@types/react-dom': ^18.0.11
   '@typescript-eslint/eslint-plugin': ^5.54.0
@@ -16,6 +17,7 @@ specifiers:
   langchain: ^0.0.22
   next: 13.2.3
   node-fetch: ^3.3.1
+  papaparse: ^5.4.1
   postcss: ^8.4.21
   prettier: ^2.8.4
   react: 18.2.0
@@ -25,18 +27,20 @@ specifiers:
   typescript: ^4.9.5
 
 dependencies:
-  '@pinecone-database/pinecone': 0.0.10
+  '@pinecone-database/pinecone': 0.0.12
   '@types/glob': 8.1.0
   dotenv: 16.0.3
   glob: 9.2.1
-  langchain: 0.0.22_ppsbqni3ixqkis2lkrnfyb5ism
+  langchain: 0.0.22_7mgfrt7jy6b3sp4nshrciglfqy
   next: 13.2.3_biqbaboplfbrettd7655fr4n2y
   node-fetch: 3.3.1
+  papaparse: 5.4.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
 
 devDependencies:
   '@types/node': 18.14.6
+  '@types/papaparse': 5.3.7
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
   '@typescript-eslint/eslint-plugin': 5.54.1_6mj2wypvdnknez7kws2nfdgupi
@@ -509,8 +513,8 @@ packages:
     dev: false
     optional: true
 
-  /@pinecone-database/pinecone/0.0.10:
-    resolution: {integrity: sha512-SwfobqOmSQvEkEtw44uc6ZZ9R/aU5bDYkBAX0cGOcSk6wWlm5yiJA+XeZkyMeUsFb1EQaGhbafIy97TDqcnnsw==}
+  /@pinecone-database/pinecone/0.0.12:
+    resolution: {integrity: sha512-YI9IQ7/0k6jI+NUyTD+I2BvwUGhOMRgMpx/qx/v5t5Cm31vSdnXEgGfh9jILUpi/+j59vtK+O5rB+pV5v1L15w==}
     engines: {node: '>=14.0.0'}
     dependencies:
       cross-fetch: 3.1.5
@@ -567,6 +571,12 @@ packages:
 
   /@types/node/18.14.6:
     resolution: {integrity: sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==}
+
+  /@types/papaparse/5.3.7:
+    resolution: {integrity: sha512-f2HKmlnPdCvS0WI33WtCs5GD7X1cxzzS/aduaxSu3I7TbhWlENjSPs6z5TaB9K0J+BH1jbmqTaM+ja5puis4wg==}
+    dependencies:
+      '@types/node': 18.14.6
+    dev: true
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -2468,7 +2478,7 @@ packages:
       object.assign: 4.1.4
     dev: true
 
-  /langchain/0.0.22_ppsbqni3ixqkis2lkrnfyb5ism:
+  /langchain/0.0.22_7mgfrt7jy6b3sp4nshrciglfqy:
     resolution: {integrity: sha512-i6Lon2S3TK/7eHLwxsTccDrec+O1ZVdGfndwpzCRVli9X4K7sQ05h04T6FAOLREb+sspmGrZy407ZXS4CyXhRw==}
     peerDependencies:
       '@dqbd/tiktoken': ^0.4.0
@@ -2500,7 +2510,7 @@ packages:
       srt-parser-2:
         optional: true
     dependencies:
-      '@pinecone-database/pinecone': 0.0.10
+      '@pinecone-database/pinecone': 0.0.12
       browser-or-node: 2.1.1
       d3-dsv: 3.0.1
       deepcopy: 2.1.0
@@ -3037,6 +3047,10 @@ packages:
   /p-timeout/5.1.0:
     resolution: {integrity: sha512-auFDyzzzGZZZdHz3BtET9VEz0SE/uMEAx7uWfGPucfzEwwe/xH0iVeZibQmANYE/hp9T2+UUZT5m+BKyrDp3Ew==}
     engines: {node: '>=12'}
+    dev: false
+
+  /papaparse/5.4.1:
+    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==}
     dev: false
 
   /parent-module/1.0.1:
