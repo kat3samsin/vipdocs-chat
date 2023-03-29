@@ -43,13 +43,17 @@ export async function processCsvFile(
     });
     const filePath = path.join(directoryPath, fileNames[0]);
     const docs: Document[] = [];
-    const file = fs2.readFileSync(filePath, 'utf8');
+    const file = fs2.readFileSync(filePath, 'utf8') as any;
+
+    if (!file) {
+      return docs;
+    }
+
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       delimiter: ',',
-      linebreak: '\n',
-      complete: (results) => {
+      complete: (results: { data: string[] }) => {
         const data = results.data as string[];
         data.forEach((row: any) => {
           const metadata = { source: row.url, title: row.title };
@@ -63,7 +67,7 @@ export async function processCsvFile(
       },
     });
 
-    // console.log('docs', docs);
+    console.log('docs', docs);
     return docs;
   } catch (error) {
     console.log('error', error);
