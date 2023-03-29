@@ -1,7 +1,9 @@
 import glob from 'glob';
 import fs from 'fs/promises';
+import fs2 from 'fs';
 import path from 'path';
 import { Document } from 'langchain/document';
+import Papa from 'papaparse';
 
 export async function processMarkDownFiles(
   directoryPath: string,
@@ -25,6 +27,43 @@ export async function processMarkDownFiles(
       );
     }
     console.log('docs', docs);
+    return docs;
+  } catch (error) {
+    console.log('error', error);
+    throw new Error(`Could not read directory path ${directoryPath} `);
+  }
+}
+
+export async function processCsvFile(
+  directoryPath: string,
+): Promise<Document[]> {
+  try {
+    const fileNames = await glob('**/*.csv', {
+      cwd: directoryPath,
+    });
+    const filePath = path.join(directoryPath, fileNames[0]);
+    const docs: Document[] = [];
+    const file = fs2.readFileSync(filePath, 'utf8');
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      delimiter: ',',
+      linebreak: '\n',
+      complete: (results) => {
+        const data = results.data as string[];
+        data.forEach((row: any) => {
+          const metadata = { source: row.url, title: row.title };
+          docs.push(
+            new Document({
+              pageContent: row.content,
+              metadata,
+            }),
+          );
+        });
+      },
+    });
+
+    // console.log('docs', docs);
     return docs;
   } catch (error) {
     console.log('error', error);

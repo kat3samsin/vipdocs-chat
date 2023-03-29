@@ -36,5 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-#Notion_db
-/Notion_DB
+#import folder
+/DOCS
+
