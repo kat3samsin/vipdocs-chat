@@ -10,7 +10,7 @@ export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [answer, setAnswer] = useState<string>('');
-  const [source, setSource] = useState<Source>({ url: '', title: '' });
+  const [sources, setSources] = useState(new Array<Source>());
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,13 +50,21 @@ export default function Home() {
       console.log('answer', answer);
       setAnswer(answer.text);
 
-      //set source
-      if (answer.sourceDocuments && answer.sourceDocuments.length > 0) {
-        setSource({
-          url: answer.sourceDocuments[0].metadata?.source,
-          title: answer.sourceDocuments[0].metadata?.title,
-        });
-      }
+      //set sources
+      const newSources = new Array<Source>();
+      const sourceTitles = {} as any;
+      answer.sourceDocuments?.forEach((doc: any) => {
+        //make sure we don't have duplicate titles
+        if (!sourceTitles[doc.metadata?.title]) {
+          sourceTitles[doc.metadata?.title] = true;
+          newSources.push({
+            url: doc.metadata?.source,
+            title: doc.metadata?.title,
+          });
+        }
+      });
+      console.log('sources.length', newSources.length);
+      setSources(newSources);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -116,19 +124,28 @@ export default function Home() {
                   <h2 className="text-xl font-bold leading-[1.1] tracking-tighter text-center">
                     Answer
                   </h2>
-                  <p className="leading-normal text-slate-700 sm:leading-7 mt-3">
+                  <div className="leading-normal text-slate-700 sm:leading-7 mt-3">
                     {answer}
                     <br />
                     <br />
-                    <b>Source: </b>
-                    <a
-                      href={source.url}
-                      target="_blank"
-                      style={{ textDecoration: 'underline' }}
-                    >
-                      {source.title}
-                    </a>
-                  </p>
+                    <b>Sources: </b>
+                    <br />
+                    {sources && (
+                      <ul>
+                        {sources.map((source, index) => (
+                          <li key={index}>
+                            <a
+                              href={source.url}
+                              target="_blank"
+                              style={{ textDecoration: 'underline' }}
+                            >
+                              {source.title}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
               </>
             )}
