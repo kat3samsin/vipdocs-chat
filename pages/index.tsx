@@ -45,11 +45,13 @@ export default function Home() {
         throw new Error(response.statusText);
       }
 
+      //set answer
       const answer = await response.json();
       console.log('answer', answer);
+      setAnswer(answer.text);
 
+      //set source
       if (answer.sourceDocuments && answer.sourceDocuments.length > 0) {
-        setAnswer(answer.sourceDocuments[0].pageContent);
         setSource({
           url: answer.sourceDocuments[0].metadata?.source,
           title: answer.sourceDocuments[0].metadata?.title,
@@ -76,7 +78,7 @@ export default function Home() {
         <section className="container max-w-xl mx-auto pt-4 pb-6 md:pt-8 md:pb-10 lg:pt-10 lg:pb-16">
           <div className="mx-auto flex flex-col gap-4">
             <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center mb-3">
-              Chat with Wordpress VIP
+              Ask Wordpress VIP
             </h1>
             <div className="flex w-full max-w-xl items-center space-x-2">
               <input
@@ -108,7 +110,7 @@ export default function Home() {
                 </>
               </div>
             )}
-            {!loading && answer.length > 0 && (
+            {!loading && answer && (
               <>
                 <div className="rounded-md border-neutral-300 border p-5 mt-4">
                   <h2 className="text-xl font-bold leading-[1.1] tracking-tighter text-center">
@@ -119,7 +121,11 @@ export default function Home() {
                     <br />
                     <br />
                     <b>Source: </b>
-                    <a href={source.url} target="_blank">
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      style={{ textDecoration: 'underline' }}
+                    >
                       {source.title}
                     </a>
                   </p>

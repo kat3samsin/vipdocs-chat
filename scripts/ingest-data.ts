@@ -20,7 +20,9 @@ export const run = async () => {
     });
 
     const docs = await textSplitter.splitDocuments(rawDocs);
-    const embeddings = new OpenAIEmbeddings();
+    const embeddings = new OpenAIEmbeddings({
+      modelName: 'text-embedding-ada-002',
+    });
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
     console.log('start create vector store...');
