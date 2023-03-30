@@ -23,20 +23,18 @@ export const run = async () => {
     const embeddings = new OpenAIEmbeddings();
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
-    console.log('creating vector store...');
+    console.log('start create vector store...');
     /* Pinecone recommends a limit of 100 vectors per upsert request to avoid errors*/
     const chunkSize = 50;
     for (let i = 0; i < docs.length; i += chunkSize) {
-      const chunk = docs.slice(i, i + chunkSize);
+      const docChunk = docs.slice(i, i + chunkSize);
       console.log('creating vector store...', i);
       /*create and store the embeddings in the vectorStore*/
-      await PineconeStore.fromDocuments(
-        index,
-        chunk,
-        embeddings,
-        'text',
-        PINECONE_NAME_SPACE,
-      );
+      await PineconeStore.fromDocuments(docChunk, embeddings, {
+        pineconeIndex: index,
+        textKey: 'text',
+        namespace: PINECONE_NAME_SPACE,
+      });
     }
     console.log('split docs', docs);
   } catch (error) {

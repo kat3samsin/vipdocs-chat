@@ -23,15 +23,20 @@ export default async function handler(
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     /* create vectorstore*/
     const vectorStore = await PineconeStore.fromExistingIndex(
-      index,
       new OpenAIEmbeddings({}),
-      'text',
-      PINECONE_NAME_SPACE, //optional
+      {
+        pineconeIndex: index,
+        textKey: 'text',
+        namespace: PINECONE_NAME_SPACE,
+      },
     );
 
     const model = openai;
     // create the chain
-    const chain = VectorDBQAChain.fromLLM(model, vectorStore);
+    const chain = VectorDBQAChain.fromLLM(model, vectorStore, {
+      k: 1,
+      returnSourceDocuments: true,
+    });
 
     //Ask a question
     const response = await chain.call({

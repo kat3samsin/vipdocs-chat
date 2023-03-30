@@ -1,10 +1,16 @@
 import { useRef, useState, useEffect } from 'react';
 import Layout from '@/components/layout';
 
+interface Source {
+  url: string;
+  title: string;
+}
+
 export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [answer, setAnswer] = useState<string>('');
+  const [source, setSource] = useState<Source>({ url: '', title: '' });
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -40,9 +46,14 @@ export default function Home() {
       }
 
       const answer = await response.json();
+      console.log('answer', answer);
 
-      if (answer.text) {
-        setAnswer(answer.text);
+      if (answer.sourceDocuments && answer.sourceDocuments.length > 0) {
+        setAnswer(answer.sourceDocuments[0].pageContent);
+        setSource({
+          url: answer.sourceDocuments[0].metadata?.source,
+          title: answer.sourceDocuments[0].metadata?.title,
+        });
       }
       setLoading(false);
     } catch (error) {
@@ -65,14 +76,14 @@ export default function Home() {
         <section className="container max-w-xl mx-auto pt-4 pb-6 md:pt-8 md:pb-10 lg:pt-10 lg:pb-16">
           <div className="mx-auto flex flex-col gap-4">
             <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center mb-3">
-              Chat With VIP Docs
+              Chat with Wordpress VIP
             </h1>
             <div className="flex w-full max-w-xl items-center space-x-2">
               <input
                 ref={inputRef}
                 className="flex h-10 w-full rounded-md border border-slate-300 bg-transparent py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
                 type="text"
-                placeholder="What is WordPress VIP?"
+                placeholder="Why is WordPress VIP awesome?"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleEnter}
@@ -105,6 +116,12 @@ export default function Home() {
                   </h2>
                   <p className="leading-normal text-slate-700 sm:leading-7 mt-3">
                     {answer}
+                    <br />
+                    <br />
+                    <b>Source: </b>
+                    <a href={source.url} target="_blank">
+                      {source.title}
+                    </a>
                   </p>
                 </div>
               </>
