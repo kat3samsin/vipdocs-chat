@@ -19,14 +19,17 @@
     "@types/glob": "^8.1.0",
     "dotenv": "^16.0.3",
     "glob": "^9.2.1",
-    "langchain": "^0.0.39",
+    "langchain": "^0.0.44",
     "next": "13.2.3",
     "node-fetch": "^3.3.1",
     "papaparse": "^5.4.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-markdown": "^8.0.6",
+    "remark-gfm": "^3.0.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
     "@types/node": "^18.14.6",
     "@types/papaparse": "^5.3.7",
     "@types/react": "^18.0.28",

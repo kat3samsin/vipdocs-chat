@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { VectorDBQAChain } from 'langchain/chains';
 import { OpenAIEmbeddings } from 'langchain/embeddings';
-import { PineconeStore } from 'langchain/vectorstores';
 import { openai } from '@/utils/openai-client';
+import { PineconeStore } from 'langchain/vectorstores';
 import { pinecone } from '@/utils/pinecone-client';
 import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
 
@@ -23,7 +24,9 @@ export default async function handler(
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     /* create vectorstore*/
     const vectorStore = await PineconeStore.fromExistingIndex(
-      new OpenAIEmbeddings({}),
+      new OpenAIEmbeddings({
+        modelName: 'text-embedding-ada-002',
+      }),
       {
         pineconeIndex: index,
         textKey: 'text',
@@ -31,19 +34,20 @@ export default async function handler(
       },
     );
 
-    const model = openai;
     // create the chain
+    const model = openai;
     const chain = VectorDBQAChain.fromLLM(model, vectorStore, {
       k: 3,
       returnSourceDocuments: true,
     });
 
     //Ask a question
+    console.time('chain.call');
     const response = await chain.call({
       query: sanitizedQuestion,
     });
-
-    console.log('response', response);
+    console.timeEnd('chain.call');
+    // console.log('response', response);
 
     res.status(200).json(response);
   } catch (error: any) {
