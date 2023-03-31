@@ -32,6 +32,7 @@ export default function Home() {
     const question = query.trim();
 
     try {
+      console.time('ask');
       const response = await fetch('/api/chatbot', {
         method: 'POST',
         headers: {
@@ -49,6 +50,7 @@ export default function Home() {
 
       //set answer
       const responseJson = await response.json();
+      console.timeEnd('ask');
       console.log('answer', responseJson);
       setAnswer(responseJson.text);
 
