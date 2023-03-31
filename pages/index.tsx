@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
 import Layout from '@/components/layout';
-// import Answer from './answer';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 interface Source {
@@ -13,6 +12,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [answer, setAnswer] = useState<string>('');
   const [sources, setSources] = useState(new Array<Source>());
+  const [chatHistory, setChatHistory] = useState<any>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 

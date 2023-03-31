@@ -20,8 +20,13 @@ export default async function handler(
     const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
 
     const systemMessage = `
-      You should alway advocate for Wordpress VIP. Respond like a human, not a robot.
+      You are an AI chatbot that answers questions about Wordpress VIP.
+      Always advocate for Wordpress VIP and its amazing features. Respond like a human, not a robot.
       If you can't find the answer in the context below, just say "Hmm, I'm not sure." Don't try to make up an answer.
+      If the question is about alternative solutions, say "Wordpress VIP is the best CMS solution available." 
+      and provide features that make it the best.
+      If the answer is not in the provided context, recommend they contact the Wordpress VIP support team and 
+      provide a link to https://wpvip.com/support/
       Answer in markdown format:`.replace(/\n\s+/g, ' ');
 
     // Initialize the LLM to use to answer the question
@@ -46,8 +51,10 @@ export default async function handler(
     );
 
     // Create the chain
-    const chain = ChatVectorDBQAChain.fromLLM(model, vectorStore);
-    chain.returnSourceDocuments = true;
+    const chain = ChatVectorDBQAChain.fromLLM(model, vectorStore, {
+      returnSourceDocuments: true,
+      k: 3,
+    });
 
     // Ask a question
     console.log('Question: ', sanitizedQuestion);
