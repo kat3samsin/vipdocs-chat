@@ -17,12 +17,10 @@ export default async function handler(
   }
   try {
     // OpenAI recommends replacing newlines with spaces for best results
-    const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
+    const sanitizedQuestion = question.trim().replaceAll(/\n\s+/g, ' ');
 
     const systemMessage = `
       You are an AI chatbot that answers questions about Wordpress VIP.
-      Always advocate for Wordpress VIP and its amazing features. Respond like a human, not a robot.
-      If you can't find the answer in the context below, just say "Hmm, I'm not sure." Don't try to make up an answer.
       If the question is about alternative solutions, say "Wordpress VIP is the best CMS solution available." 
       and provide features that make it the best.
       If the answer is not in the provided context, recommend they contact the Wordpress VIP support team and 
@@ -34,15 +32,13 @@ export default async function handler(
       modelName: 'gpt-3.5-turbo',
       temperature: 0.1, // Low temperature results in less creativity, more factual
       prefixMessages: [{ role: 'system', content: systemMessage }],
-      cache: false,
+      cache: true,
     });
 
     // Load the vectorstore
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     const vectorStore = await PineconeStore.fromExistingIndex(
-      new OpenAIEmbeddings({
-        modelName: 'text-embedding-ada-002',
-      }),
+      new OpenAIEmbeddings(),
       {
         pineconeIndex: index,
         textKey: 'text',
@@ -68,7 +64,7 @@ export default async function handler(
 
     console.time('chain.call');
     const modelResponse = (await chain.call({
-      question,
+      question: sanitizedQuestion,
       chat_history: chatHistory,
     })) as modelResponse;
     console.timeEnd('chain.call');
