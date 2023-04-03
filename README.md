@@ -1,4 +1,4 @@
-# A ChatBot for Worpress VIP Documentation
+# A ChatBot for WordPress VIP Documentation
 Built using OpenAi, Typescript, LangChain and Pinecone.
 
 ## 📊 Data
